@@ -52,7 +52,7 @@ app.use(limiter);
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client/projectreact-main/dist')));
+app.use(express.static(path.join(__dirname, './clientbuild')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/projectreact-main/dist', 'index.html'));
 });
