@@ -5,7 +5,6 @@ const rateLimit = require('express-rate-limit');
 const authjwt = require('./middleware/auth');
 const connectDB = require('./utils/connectionMongodb');
 const morgan = require('morgan');  // Optional: for request logging
-const path = require('path');
 
 // Route imports
 const authRoutes = require('./api/auth/login');
@@ -52,10 +51,6 @@ app.use(limiter);
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, './clientbuild')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'clientbuild', 'index.html'));
-});
 
 // Optional: Request logging (only in development)
 if (process.env.NODE_ENV === 'development') {
