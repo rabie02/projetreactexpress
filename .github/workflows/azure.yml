@@ -23,17 +23,6 @@ jobs:
         cd server
         npm install
 
-    - name: Build client (React)
-      run: |
-        cd client/projectreact-main
-        npm install
-        npm run build
-
-    - name: Copy client build to server
-      run: |
-        rm -rf server/clientbuild
-        cp -r client/projectreact-main/dist server/clientbuild
-
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
