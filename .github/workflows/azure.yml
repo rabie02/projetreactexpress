@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22' # ta version Node.js choisie dans Azure (Node 22)
+        node-version: '22'  # Assure-toi que c'est bien 22 sur Azure aussi
 
     - name: Install server dependencies
       run: |
@@ -26,7 +26,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
-        app-name: 'projetreactexpress'  # Ton nom d'application Azure Web App
+        app-name: 'projetreactexpress'   # (Ton nom exact dans Azure Web App)
         slot-name: 'Production'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
         package: server
