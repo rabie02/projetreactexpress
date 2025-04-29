@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - projetreactexpress
+name: Build and Deploy Node.js app to Azure Web App - projetreactexpress
 
 on:
   push:
@@ -16,17 +16,27 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22'  # Assure-toi que c'est bien 22 sur Azure aussi
+        node-version: '22'
 
     - name: Install server dependencies
       run: |
         cd server
         npm install
 
+    - name: Build client (React)
+      run: |
+        cd client/projectreact-main
+        npm install
+        npm run build
+
+    - name: Copy client build to server
+      run: |
+        rm -rf server/clientbuild
+        cp -r client/projectreact-main/dist server/clientbuild
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
-        app-name: 'projetreactexpress'   # (Ton nom exact dans Azure Web App)
-        slot-name: 'Production'
+        app-name: 'projetreactexpress'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-        package: server
+        package: ./server
