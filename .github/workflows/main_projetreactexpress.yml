@@ -58,7 +58,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'projetreactexpress'
-          slot-name: 'dwf7c5gjcezh3h5'  
-          package: release.zip
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_13C42D6983094F6197CF0FE89CD00845 }}
