@@ -16,9 +16,9 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '22.x'   # Car tu as choisi Node.js 22
+        node-version: '22.x'   # Car tu as choisi Node 22 dans Azure
 
-    - name: Install server dependencies
+    - name: Install dependencies
       run: |
         cd server
         npm install
