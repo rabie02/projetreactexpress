@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - Slot
+name: Deploy Fullstack (React + Express) to Azure Web App
 
 on:
   push:
@@ -7,56 +7,47 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      - name: Install dependencies and build (if needed)
+      # 🔹 Build React
+      - name: Build React app
+        run: |
+          cd client/projectreact-main
+          npm install
+          npm run build
+
+      # 🔹 Copier le build dans le backend Express
+      - name: Copy React build to backend
+        run: |
+          rm -rf server/clientbuild
+          cp -r client/projectreact-main/dist server/clientbuild
+
+      # 🔹 Installer backend
+      - name: Install backend dependencies
         run: |
           cd server
           npm install
-          npm run build --if-present
 
-      - name: Zip server folder
+      # 🔹 Zipper le backend pour déploiement
+      - name: Zip backend
         run: |
           cd server
           zip -r ../release.zip .
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-app
-          path: release.zip
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: node-app
-
-      - name: Unzip artifact
-        run: unzip release.zip
-
-      - name: Deploy to Azure Web App Slot
-        id: deploy-to-webapp
+      # 🚀 Déployer vers Azure
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'projetreactexpress'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: .
+          package: release.zip
