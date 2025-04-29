@@ -16,18 +16,23 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '22.x'   # Car tu as choisi Node 22 dans Azure
+        node-version: '22.x'  # Node.js 22 que tu utilises
 
-    - name: Install dependencies
+    - name: Install server dependencies
       run: |
         cd server
         npm install
 
-    - name: Build client app
+    - name: Install client dependencies and build
       run: |
         cd ../client/projectreact-main
         npm install
         npm run build
+
+    - name: Move build folder into server
+      run: |
+        rm -rf ../server/clientbuild
+        mv dist ../server/clientbuild
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
