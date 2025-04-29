@@ -19,32 +19,32 @@ jobs:
         with:
           node-version: '20.x'
 
-      # 🔹 Build React
+      # 🔹 Installer et builder React
       - name: Build React app
         run: |
           cd client/client
           npm install
           npm run build
 
-      # 🔹 Copier le build dans le backend Express
-      - name: Copy React build to backend
+      # 🔹 Copier le build React vers Express
+      - name: Copy React build to Express
         run: |
           rm -rf server/clientbuild
-          cp -r client/client /dist server/clientbuild
+          cp -r client/client/dist server/clientbuild
 
-      # 🔹 Installer backend
+      # 🔹 Installer les dépendances backend
       - name: Install backend dependencies
         run: |
           cd server
           npm install
 
-      # 🔹 Zipper le backend pour déploiement
-      - name: Zip backend
+      # 🔹 Zipper le dossier server
+      - name: Zip backend for deployment
         run: |
           cd server
           zip -r ../release.zip .
 
-      # 🚀 Déployer vers Azure
+      # 🚀 Déployer vers Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
