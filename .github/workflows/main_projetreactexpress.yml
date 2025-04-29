@@ -22,7 +22,7 @@ jobs:
       # 🔹 Build React
       - name: Build React app
         run: |
-          cd client/projectreact-main
+          cd client/client
           npm install
           npm run build
 
@@ -30,7 +30,7 @@ jobs:
       - name: Copy React build to backend
         run: |
           rm -rf server/clientbuild
-          cp -r client/projectreact-main/dist server/clientbuild
+          cp -r client/client /dist server/clientbuild
 
       # 🔹 Installer backend
       - name: Install backend dependencies
