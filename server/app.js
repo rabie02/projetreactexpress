@@ -54,8 +54,9 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, './clientbuild')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/projectreact-main/dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'clientbuild', 'index.html'));
 });
+
 // Optional: Request logging (only in development)
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));  // Logs requests in the 'dev' format
