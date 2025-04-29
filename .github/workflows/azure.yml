@@ -9,6 +9,10 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./server  # ➔ On travaille dans /server
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -19,20 +23,15 @@ jobs:
         node-version: '22.x'
 
     - name: Install server dependencies
-      run: |
-        cd server
-        npm install
+      run: npm install
 
     - name: Install client dependencies and build
       run: |
-        cd client/projectreact-main
+        cd ../client/projectreact-main
         npm install
         npm run build
-
-    - name: Copy React build to server
-      run: |
-        rm -rf server/clientbuild
-        cp -r client/projectreact-main/dist server/clientbuild
+        rm -rf ../../server/clientbuild
+        cp -r dist ../../server/clientbuild
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -40,4 +39,4 @@ jobs:
         app-name: projetreactexpress
         slot-name: production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-        package: server/
+        package: .
