@@ -23,9 +23,14 @@ jobs:
         cd server
         npm install
 
+    - name: Build server (if needed)
+      run: |
+        cd server
+        npm run build  # À adapter selon votre projet
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
-        app-name: 'projetreactexpress' # correct
+        app-name: 'projetreactexpress'  # Doit correspondre exactement au nom dans Azure
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-        package: ./server
+        package: ./server  # Chemin vers les fichiers à déployer
