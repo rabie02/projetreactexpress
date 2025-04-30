@@ -208,6 +208,10 @@ const ProductSpecifications = () => {
   
         </div>
       </div>
+      {/* Chatbot */}
+      <div className="chatbot-section">
+        <Chatbot />
+      </div>
     </div>
   );
   
